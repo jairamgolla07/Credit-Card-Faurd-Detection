@@ -1,4 +1,4 @@
-# Credit Card Fraud Detection using Deep Learning and Django
+# Enhancing Fraud Detection In Banking With Deep Learning Graph Neural and Autoencoders for Real-Time Credit Card Fraud Prevention
 
 ## 📌 Project Overview
 This project implements a hybrid fraud detection system using Machine Learning, Deep Learning, and Graph Neural Networks integrated with a Django web application. It is designed for academic demonstration using synthetic transaction data.
