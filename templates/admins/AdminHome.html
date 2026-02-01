@@ -1,0 +1,207 @@
+{% extends 'admins/adminbase.html' %}
+{% load static %}
+{% block contents %}
+
+<style>
+    .dashboard-header {
+        margin-bottom: 30px;
+        border-bottom: 2px solid var(--border-color);
+        padding-bottom: 10px;
+    }
+
+    .dashboard-header h2 {
+        color: var(--text-color);
+        font-weight: 700;
+        font-size: 1.9rem;
+    }
+
+    .metric-card {
+        background-color: var(--surface-color);
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        border-left: 5px solid var(--primary-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        height: 100%;
+    }
+
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 188, 212, 0.3);
+    }
+
+    .metric-icon {
+        font-size: 2.5rem;
+        color: var(--primary-color);
+        margin-right: 20px;
+    }
+
+    .metric-value {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--text-color);
+    }
+
+    .metric-label {
+        color: var(--secondary-color);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .activity-panel {
+        background-color: var(--surface-color);
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        margin-top: 40px;
+        border: 1px solid var(--border-color);
+    }
+
+    .activity-panel h3 {
+        color: var(--primary-color);
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .log-item {
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    }
+
+    .log-item:last-child {
+        border-bottom: none;
+    }
+
+    .log-icon {
+        color: var(--primary-color);
+        font-size: 1rem;
+        margin-right: 15px;
+    }
+
+    .log-text {
+        color: var(--text-color);
+        flex-grow: 1;
+        font-size: 0.95rem;
+    }
+
+    .log-time {
+        color: var(--secondary-color);
+        font-size: 0.8rem;
+    }
+</style>
+
+<div class="container-fluid">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+        <h2>
+            <i class="fas fa-brain me-2"></i>
+            AI-Based Credit Card Fraud Detection Dashboard
+        </h2>
+        <p class="text-secondary">
+            Enhancing Fraud Detection in Banking with Deep Learning using 
+            Graph Neural Networks, Autoencoders, XGBoost, and LSTM.
+        </p>
+    </header>
+
+    <!-- KPI CARDS -->
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+
+        <div class="col">
+            <div class="metric-card d-flex align-items-center">
+                <i class="fas fa-database metric-icon"></i>
+                <div>
+                    <div class="metric-value">Credit Card Dataset</div>
+                    <div class="metric-label">Training Dataset Used</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="metric-card d-flex align-items-center" style="border-left-color:#f7b731;">
+                <i class="fas fa-layer-group metric-icon" style="color:#f7b731;"></i>
+                <div>
+                    <div class="metric-value">3 Core Models</div>
+                    <div class="metric-label">XGBoost • LSTM • Autoencoder</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="metric-card d-flex align-items-center" style="border-left-color:#20b2aa;">
+                <i class="fas fa-percentage metric-icon" style="color:#20b2aa;"></i>
+                <div>
+                    <div class="metric-value">95%+</div>
+                    <div class="metric-label">Best Accuracy (Autoencoder)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="metric-card d-flex align-items-center" style="border-left-color:#ef476f;">
+                <i class="fas fa-project-diagram metric-icon" style="color:#ef476f;"></i>
+                <div>
+                    <div class="metric-value">GNN Enabled</div>
+                    <div class="metric-label">Fraud Network Analysis</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ACTIVITY PANEL -->
+    <div class="activity-panel">
+        <h3>
+            <i class="fas fa-stream me-2"></i>
+            Model Training & Detection Activity
+        </h3>
+
+        <div class="log-item">
+            <i class="fas fa-check-circle log-icon"></i>
+            <span class="log-text">
+                XGBoost, LSTM and Autoencoder models successfully trained using the credit card fraud dataset.
+            </span>
+            <span class="log-time">Just now</span>
+        </div>
+
+        <div class="log-item">
+            <i class="fas fa-brain log-icon" style="color:#20b2aa;"></i>
+            <span class="log-text">
+                Autoencoder anomaly detection threshold optimized for improved fraud sensitivity.
+            </span>
+            <span class="log-time">5 minutes ago</span>
+        </div>
+
+        <div class="log-item">
+            <i class="fas fa-network-wired log-icon" style="color:#ef476f;"></i>
+            <span class="log-text">
+                Graph Neural Network (GNN) trained to analyze suspicious transaction relationships.
+            </span>
+            <span class="log-time">10 minutes ago</span>
+        </div>
+
+        <div class="log-item">
+            <i class="fas fa-bolt log-icon"></i>
+            <span class="log-text">
+                Real-time fraud prediction activated using weighted ensemble decision strategy.
+            </span>
+            <span class="log-time">15 minutes ago</span>
+        </div>
+
+        <div class="log-item">
+            <i class="fas fa-shield-alt log-icon"></i>
+            <span class="log-text">
+                System ready to detect anomalies and prevent fraudulent credit card transactions in real time.
+            </span>
+            <span class="log-time">20 minutes ago</span>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

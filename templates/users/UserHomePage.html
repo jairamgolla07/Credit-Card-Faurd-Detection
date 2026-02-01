@@ -1,0 +1,190 @@
+{% extends 'users/userbase.html' %}
+{% load static %}
+{% block contents %}
+
+<style>
+/* ------------------- USER DASHBOARD STYLING ------------------- */
+
+.user-dashboard-card {
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    margin-bottom: 25px;
+    color: var(--text-color);
+}
+
+.user-dashboard-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 188, 212, 0.2);
+}
+
+/* Welcome Header */
+.welcome-header {
+    color: var(--text-color);
+    font-weight: 700;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.welcome-header h1 {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px rgba(0, 188, 212, 0.4);
+}
+
+.welcome-header p {
+    color: var(--secondary-color);
+    font-size: 1rem;
+}
+
+/* KPI Cards */
+.metric-kpi {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-color);
+    border-radius: 10px;
+    padding: 20px;
+    border-left: 5px solid;
+    height: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.metric-icon {
+    font-size: 2.5rem;
+    margin-right: 20px;
+    opacity: 0.9;
+}
+
+.metric-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--text-color);
+}
+
+.metric-label {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* KPI Colors */
+.metric-models { border-left-color: var(--primary-color); }
+.metric-models .metric-icon { color: var(--primary-color); }
+
+.metric-uploads { border-left-color: #f7b731; }
+.metric-uploads .metric-icon { color: #f7b731; }
+
+.metric-pending { border-left-color: #ef476f; }
+.metric-pending .metric-icon { color: #ef476f; }
+
+/* Action Card */
+.action-info-card {
+    padding: 25px;
+    background-color: #1a2333;
+    border-radius: 10px;
+    border: 1px solid var(--primary-color);
+}
+
+.action-info-card h3 {
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.btn-analyze {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    color: var(--background-color);
+    font-weight: 700;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 188, 212, 0.4);
+}
+
+.btn-analyze:hover {
+    transform: translateY(-2px);
+    background-color: #0097a7;
+}
+</style>
+
+<div class="container-fluid">
+
+    <!-- WELCOME CARD -->
+    <div class="user-dashboard-card welcome-header">
+        <h1>
+            <i class="fas fa-brain me-2"></i>
+            AI-Based Credit Card Fraud Detection System
+        </h1>
+        <p>
+            A Hybrid Deep Learning Framework using <b>XGBoost</b>, <b>LSTM</b>, 
+            <b>Autoencoder</b>, and <b>Graph Neural Networks (GNN)</b> for real-time 
+            fraud prevention and intelligent anomaly detection.
+        </p>
+    </div>
+
+    <!-- KPI SECTION -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <div class="col">
+            <div class="metric-kpi metric-models">
+                <i class="fas fa-database metric-icon"></i>
+                <div>
+                    <div class="metric-value">Dataset</div>
+                    <div class="metric-label">Credit Card Fraud Dataset Used</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="metric-kpi metric-uploads">
+                <i class="fas fa-layer-group metric-icon"></i>
+                <div>
+                    <div class="metric-value">3 Core Models</div>
+                    <div class="metric-label">XGBoost + LSTM + Autoencoder</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="metric-kpi metric-pending">
+                <i class="fas fa-project-diagram metric-icon"></i>
+                <div>
+                    <div class="metric-value">GNN</div>
+                    <div class="metric-label">Transaction Network Analysis</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ACTION CARD -->
+    <div class="user-dashboard-card mt-5">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3>
+                    <i class="fas fa-robot me-2"></i>
+                    Real-Time Fraud Prediction
+                </h3>
+                <p class="text-secondary">
+                    Enter transaction details to get instant predictions using our hybrid AI model 
+                    combining <b>XGBoost</b>, <b>LSTM</b>, and <b>Autoencoder</b>.  
+                    The <b>Graph Neural Network (GNN)</b> works in the background to analyze hidden 
+                    fraud patterns and relationships between transactions.
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end text-center mt-3 mt-md-0">
+                <a href="{% url 'prediction' %}" class="btn btn-analyze btn-lg">
+                    <i class="fas fa-chart-line me-2"></i>
+                    Start Fraud Analysis
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Portal | Credit Card Fraud Detection</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+
+    <style>
+        /* Define the Dark Theme variables for consistency */
+        :root {
+            --primary-color: #00bcd4; /* Vibrant Teal */
+            --secondary-color: #94a3b8; /* Muted gray for secondary text */
+            --background-color: #0f172a; /* Deep Navy Blue */
+            --surface-color: #1e293b; /* Dark Card/Panel */
+            --text-color: #e2e8f0; /* Soft white text */
+            --border-color: #334155; 
+            --primary-color-dim: rgba(0, 188, 212, 0.4);
+            --accent-glow: 0 0 10px var(--primary-color-dim);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding-top: 100px; /* Space for fixed header/nav */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ------------------ TOP BAR/HEADER ------------------ */
+        .main-header {
+            background-color: var(--surface-color);
+            color: var(--text-color);
+            padding: 15px 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px; /* Constrain header width */
+            margin: 0 auto;
+        }
+
+        .logo-title {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ------------------ NAVIGATION BAR ------------------ */
+        .main-nav {
+            background-color: #1a2333; /* Slightly different dark shade for contrast */
+            padding: 0 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-list li a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-size: 1rem;
+            padding: 15px 25px;
+            display: block;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            border-bottom: 3px solid transparent; /* Accent border for active state */
+        }
+        
+        .nav-list li a i {
+            margin-right: 8px;
+            color: var(--secondary-color);
+            transition: color 0.3s;
+        }
+
+        .nav-list li a:hover,
+        .nav-list li a.active {
+            color: var(--primary-color);
+            background-color: rgba(0, 188, 212, 0.1);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .nav-list li a:hover i,
+        .nav-list li a.active i {
+            color: var(--primary-color);
+        }
+        
+        /* Special style for Logout button */
+        .nav-list li .logout-link {
+            color: #ef476f !important; /* Red for emphasis */
+        }
+        .nav-list li .logout-link:hover {
+            color: #ff6b81 !important;
+            background-color: rgba(239, 71, 111, 0.1);
+            border-bottom-color: #ef476f;
+        }
+
+        /* ------------------ BLOCK CONTENT ------------------ */
+        .content-wrapper {
+            flex-grow: 1; /* Ensures content pushes footer down */
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+
+        /* ------------------ FOOTER ------------------ */
+        .main-footer {
+            background-color: var(--surface-color);
+            color: var(--secondary-color);
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: auto; /* Push to the very bottom */
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="main-header">
+    <div class="header-content">
+        <h1 class="logo-title">
+            <i class="fas fa-credit-card me-2"></i> Credit Card Fraud Detection
+        </h1>
+        <span class="text-secondary small">
+            User Portal Access
+        </span>
+    </div>
+</div>
+
+<nav class="main-nav" style="top: 72px; position: fixed; width: 100%; z-index: 999;">
+    <div class="header-content">
+        <ul class="nav-list">
+            
+            <li class="">
+                <a href="{% url 'UserHome' %}" class="{% if request.path == '/userhome/' %}active{% endif %}">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+            </li>
+            
+            <li class="">
+                <a href="{% url 'prediction' %}" class="{% if 'prediction' in request.path %}active{% endif %}">
+                    <i class="fas fa-chart-line"></i> Fraud Analysis
+                </a>
+            </li>
+            
+            <li class="">
+                <a href="{% url 'index' %}" class="logout-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="content-wrapper">
+    {% block contents %}
+    {% endblock %}
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

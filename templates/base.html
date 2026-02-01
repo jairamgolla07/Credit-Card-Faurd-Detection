@@ -1,0 +1,266 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <title>Credit card anamolies and fraud</title>
+    <style>
+        :root {
+            --primary-color: #00bcd4; /* Vibrant Teal */
+            --secondary-color: #6c757d; /* Muted Gray */
+            --background-color: #171818; /* Deep Navy Blue for a premium look */
+            
+            --surface-color: #1e293b; /* Slightly lighter dark for cards */
+            --text-color: #e2e8f0; /* Soft white text */
+            --border-color: #334155; /* Dark border */
+            --accent-glow: 0 0 15px rgba(0, 188, 212, 0.4);
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-color);
+            /* Ensure the static file exists. Using a solid color fallback */
+            background-color: var(--background-color);
+            background-image: url("{% static 'card1.jpg' %}");
+            background-blend-mode: overlay; /* Blend image with solid color */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding-top: 100px; /* Space for the fixed header */
+        }
+        
+        /* ------------------ UNIQUE HEADER STYLES ------------------ */
+        .header {
+            /* Dark, slightly transparent background for the fixed bar */
+            background-color: rgba(15, 23, 42, 0.98); 
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            /* Unique, professional double-shadow for depth */
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 188, 212, 0.15);
+            border-bottom: 2px solid var(--primary-color); /* Accent line */
+        }
+        
+        .header-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-icon {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-right: 15px;
+            animation: pulse 2s infinite; /* Subtle animation */
+        }
+
+        .header-title-main {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--text-color);
+            letter-spacing: 1px;
+            margin: 0;
+        }
+
+        .header-subtitle {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            font-family: 'Roboto Mono', monospace; /* Monospace font for "tech" feel */
+        }
+
+        .nav-link {
+            display: inline-block;
+            margin: 0 8px;
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Unique Hover Effect: Sliding border/glow */
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease-out, left 0.3s ease-out;
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+            left: 0;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+            background-color: rgba(0, 188, 212, 0.08); /* Subtle highlight */
+        }
+        
+        /* Highlight for the current page (requires Django logic in view to pass context) */
+        .nav-link.active {
+            color: var(--primary-color);
+            font-weight: 700;
+            box-shadow: 0 0 10px rgba(0, 188, 212, 0.3);
+        }
+        /* ------------------ END HEADER STYLES ------------------ */
+
+        .content {
+            padding: 40px;
+        }
+        .form-container {
+            background-color: rgba(98, 138, 202, 0.95); /* Adjusted surface color for consistency */
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            color: var(--text-color);
+        }
+        /* Animation for the icon */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Content Specific Styles */
+        .info-card {
+            background-color: var(--surface-color);
+            border-left: 5px solid var(--primary-color);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--accent-glow);
+        }
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 25px;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <div class="header-brand">
+        <i class="fas fa-network-wired header-icon"></i> 
+        <div>
+            <h2 class="header-title-main">Credit card </h2>
+            <div class="header-subtitle">
+            Enhancing Fraud Detection  
+            </div>
+        </div>
+    </div>
+    <div class="nav">
+        <a class="nav-link active" href="{% url 'index' %}">
+            <i class="fas fa-home me-1"></i> Home
+        </a>
+        <a class="nav-link" href="{% url 'UserLogin' %}">
+            <i class="fas fa-user me-1"></i> User Login
+        </a>
+        <a class="nav-link" href="{% url 'AdminLoginCheck' %}">
+            <i class="fas fa-user-shield me-1"></i> Admin Login
+        </a>
+        <a class="nav-link" href="{% url 'UserRegisterForm' %}">
+            <i class="fas fa-user-plus me-1"></i> Create Account
+        </a>
+    </div>
+</div>
+
+<div class="content">
+    {% block contents %}
+        <div class="container">
+            <h1 class="text-center mb-5 section-title">Hybrid ML Multi-Stage Framework for Fraud Detection 🚨</h1>
+            
+            <p class="lead text-center mb-4">
+                This framework leverages a structured workflow and multiple machine learning models to effectively combat credit card fraud, addressing challenges like **data imbalance** and the **evolving nature of fraudulent activity**.
+            </p>
+
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="info-card">
+                        <h3 class="section-title"><i class="fas fa-cogs me-2"></i> 1. Data Preprocessing & Feature Engineering</h3>
+                        <p>This critical initial phase prepares raw transaction data for modeling, maximizing its predictive value.</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-balance-scale text-info me-2"></i> <strong>Handling Imbalance:</strong> Techniques like **SMOTE** (Synthetic Minority Oversampling Technique) or undersampling are used to correct the severe imbalance between legitimate and fraudulent transactions.</li>
+                            <li class="mb-2"><i class="fas fa-filter text-info me-2"></i> <strong>Feature Selection:</strong> A hybrid approach (statistical and ML-based methods) selects only the most informative features, which is essential for faster and more accurate model training.</li>
+                            <li class="mb-2"><i class="fas fa-exchange-alt text-info me-2"></i> <strong>Transformation:</strong> Data is scaled/normalized and categorical variables are encoded to ensure numerical stability and optimal performance for the ML algorithms.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="info-card">
+                        <h3 class="section-title"><i class="fas fa-layer-group me-2"></i> 2. Multi-Stage Classification System (Ensemble)</h3>
+                        <p>The core of the framework, combining diverse models for robust and accurate decision-making.</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-brain text-info me-2"></i> <strong>Base Classifiers (Level 0):</strong> A set of diverse models (e.g., Logistic Regression, Random Forest, XGBoost) analyze the processed data.</li>
+                            <li class="mb-2"><i class="fas fa-database text-info me-2"></i> <strong>Staged Input:</strong> The **predictions** (outputs) of these Level 0 models are treated as **new input features**.</li>
+                            <li class="mb-2"><i class="fas fa-robot text-info me-2"></i> <strong>Meta-Classifier (Level 1):</strong> A final model (e.g., a simple DNN or another robust classifier) is trained on these new features to make the **final fraud prediction**. This "stacking" approach learns how to best combine the strengths of the base models.</li>
+                            <li class="text-center mt-3"><i class="fas fa-project-diagram text-warning me-2"></i> </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row justify-content-center">
+                 <div class="col-lg-8">
+                    <div class="info-card">
+                        <h3 class="section-title text-center"><i class="fas fa-chart-line me-2"></i> 3. Performance & Evaluation</h3>
+                        <p class="text-center">Model effectiveness is measured using appropriate metrics, focusing on minimizing financial loss.</p>
+                        <ul class="list-unstyled d-flex justify-content-around flex-wrap">
+                            <li class="mb-2 text-center">
+                                <i class="fas fa-check-circle text-success fs-4 me-2"></i> 
+                                <strong>Recall (Sensitivity):</strong> The most crucial metric. Measures the ability to correctly identify <span class="text-warning">**all** fraudulent transactions</span> (True Positives / All Actual Fraud).
+                            </li>
+                            <li class="mb-2 text-center">
+                                <i class="fas fa-check-double text-success fs-4 me-2"></i> 
+                                <strong>Precision:</strong> Measures how many transactions flagged as fraud are <span class="text-warning">**actually** fraudulent</span> (minimizes false alarms).
+                            </li>
+                            <li class="mb-2 text-center">
+                                <i class="fas fa-chart-area text-success fs-4 me-2"></i> 
+                                <strong>F1-Score / AUC:</strong> Consolidated metrics for overall model quality.
+                            </li>
+                        </ul>
+                        <blockquote class="blockquote mt-3 border-start border-5 ps-3 border-info">
+                            <p class="mb-0 fst-italic">Superior results are achieved by leveraging the complementary strengths of the individual classifiers, leading to higher overall fraud recall compared to single-model approaches.</p>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5">
+                <a href="https://www.youtube.com/watch?v=BRaAU2vAG_c" class="btn btn-lg" style="background-color: var(--primary-color); color: var(--background-color); font-weight: 700;">
+                    <i class="fab fa-youtube me-2"></i> Watch Video on ML Fraud Detection
+                </a>
+            </div>
+        </div>
+    {% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

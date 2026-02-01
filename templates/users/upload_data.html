@@ -1,0 +1,210 @@
+{% extends 'users/userbase.html' %}
+{% load static %}
+
+{% block contents %}
+
+<style>
+    /* Inherit core colors from userbase.html's :root */
+
+    .upload-container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 40px;
+        background: var(--surface-color); /* Dark card background */
+        border-radius: 16px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Stronger shadow for depth */
+        border: 1px solid var(--border-color);
+        color: var(--text-color);
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+        text-align: center;
+        color: var(--primary-color); /* Teal for the title */
+        margin-bottom: 10px;
+        font-weight: 700;
+        font-size: 2rem;
+    }
+    
+    .subtitle {
+        text-align: center;
+        color: var(--secondary-color);
+        margin-bottom: 30px;
+        font-size: 1rem;
+    }
+    
+    /* File Input Styling */
+    .custom-file-input {
+        background-color: var(--background-color);
+        border: 2px dashed var(--border-color);
+        padding: 40px 20px;
+        border-radius: 10px;
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+    
+    .custom-file-input:hover {
+        border-color: var(--primary-color);
+        background-color: #1a2333; /* Slightly lighter dark shade */
+    }
+
+    .custom-file-input input[type="file"] {
+        display: none;
+    }
+
+    .file-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 10px;
+        opacity: 0.8;
+    }
+    
+    .file-text {
+        color: var(--text-color);
+        font-weight: 600;
+    }
+    
+    /* Submit Button Styling (Teal Primary) */
+    .btn-upload {
+        background-color: var(--primary-color);
+        color: var(--background-color);
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-top: 25px;
+        width: 100%;
+        transition: background 0.3s ease, transform 0.2s, box-shadow 0.3s;
+        box-shadow: 0 4px 15px rgba(0, 188, 212, 0.4);
+    }
+    
+    .btn-upload:hover {
+        background-color: #0097a7;
+        transform: translateY(-2px);
+    }
+
+    /* Message Styling */
+    .alert-custom {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+    }
+    .alert-success-dark {
+        background-color: rgba(40, 167, 69, 0.15);
+        border: 1px solid #28a745;
+        color: #28a745;
+    }
+    .alert-danger-dark {
+        background-color: rgba(239, 71, 111, 0.15);
+        border: 1px solid #ef476f;
+        color: #ef476f;
+    }
+    
+    /* Instructions List */
+    .instructions-card {
+        margin-top: 30px;
+        background-color: #1a2333; /* Slightly darker than surface */
+        padding: 20px;
+        border-radius: 10px;
+        border-left: 5px solid var(--primary-color);
+    }
+    .instructions-card h4 {
+        color: var(--text-color);
+        margin-bottom: 15px;
+    }
+    .instructions-card ul {
+        list-style: none;
+        padding-left: 0;
+    }
+    .instructions-card li {
+        margin-bottom: 10px;
+        color: var(--secondary-color);
+    }
+    .instructions-card li i {
+        color: var(--primary-color);
+        margin-right: 10px;
+    }
+</style>
+
+<div class="upload-container">
+    <h2><i class="fas fa-file-import me-2"></i> Secure Data Upload</h2>
+    <p class="subtitle">Contribute your anonymized health data for federated causal inference.</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert-custom alert-{{ message.tags|default:'info' }}-dark">
+                <i class="fas fa-info-circle me-2"></i> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        <label for="data_file" class="custom-file-input w-100">
+            <i class="fas fa-file-csv file-icon"></i>
+            <p class="file-text mb-0">Drag & Drop your **CSV file** here, or click to browse.</p>
+            <p class="text-secondary small mt-1 mb-0">(Max file size: 5MB)</p>
+            
+            <input type="file" name="data_file" id="data_file" accept=".csv" required>
+        </label>
+        
+        <div class="form-group w-100 mt-3">
+             <label for="user_id"><i class="fas fa-id-badge me-2"></i> Your Contributor ID</label>
+             <input type="text" id="user_id" name="user_id" value="{{ request.user.loginid|default:'(Auto-Detected)' }}" readonly 
+                    style="background-color: var(--background-color); border: 1px solid var(--primary-color-dim); color: var(--primary-color); font-weight: bold;">
+        </div>
+
+        <button type="submit" class="btn-upload">
+            <i class="fas fa-cloud-upload-alt me-2"></i> Upload Data Securely
+        </button>
+    </form>
+    
+    <div class="instructions-card">
+        <h4><i class="fas fa-shield-alt me-2"></i> Data Contribution Guidelines</h4>
+        <ul>
+            <li><i class="fas fa-check"></i> Data must be in **CSV format**.</li>
+            <li><i class="fas fa-check"></i> Ensure all personally identifiable information (PII) has been **removed or anonymized**.</li>
+            <li><i class="fas fa-check"></i> File columns must match the required schema (e.g., Age, BMI, Glucose, etc.).</li>
+            <li><i class="fas fa-lock"></i> All uploaded data is processed under **Differential Privacy protocols**.</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    // JavaScript to update the label text when a file is selected
+    document.getElementById('data_file').addEventListener('change', function() {
+        const fileText = document.querySelector('.file-text');
+        if (this.files && this.files.length > 0) {
+            fileText.textContent = 'Selected File: ' + this.files[0].name;
+            fileText.style.color = 'var(--primary-color)';
+        } else {
+            fileText.textContent = 'Drag & Drop your **CSV file** here, or click to browse.';
+            fileText.style.color = 'var(--text-color)';
+        }
+    });
+
+    // Simple validation feedback (Bootstrap needs this for novalidate attribute)
+    (function () {
+      'use strict'
+      var form = document.querySelector('form');
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })()
+</script>
+
+{% endblock %}

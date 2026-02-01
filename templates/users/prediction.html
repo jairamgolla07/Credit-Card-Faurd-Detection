@@ -1,0 +1,166 @@
+{% extends 'users/userbase.html' %}
+{% load static %}
+{% block contents %}
+
+<style>
+:root {
+    --primary-color: #00bcd4;
+    --background-color: #0f172a;
+    --surface-color: #1e293b;
+    --text-color: #e2e8f0;
+    --success-color: #38c172;
+    --fraud-color: #e3342f;
+    --border-color: #334155;
+}
+
+.prediction-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 35px;
+    background-color: var(--surface-color);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.prediction-container h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    background: #0f172a;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-color);
+}
+
+.btn-predict {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #000;
+    margin-top: 20px;
+}
+
+.result-box {
+    margin-top: 25px;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: rgba(0,188,212,0.05);
+}
+
+.fraud-result {
+    color: var(--fraud-color);
+    text-align: center;
+    font-weight: bold;
+}
+
+.legit-result {
+    color: var(--success-color);
+    text-align: center;
+    font-weight: bold;
+}
+
+.error-box {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(227,52,47,0.2);
+    border: 1px solid var(--fraud-color);
+    color: var(--fraud-color);
+    text-align: center;
+}
+</style>
+
+<div class="prediction-container">
+    <h2>Credit Card Fraud Prediction</h2>
+
+    <form method="POST" action="{% url 'prediction' %}">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" step="0.01" name="amount" required>
+        </div>
+
+        <div class="form-group">
+            <label>Transaction Time</label>
+            <input type="number" name="transaction_time" required>
+        </div>
+
+        <div class="form-group">
+            <label>Merchant Type</label>
+            <select name="merchant_type">
+                <option>Shopping</option>
+                <option>Food</option>
+                <option>Fuel</option>
+                <option>Online</option>
+                <option>Travel</option>
+                <option>Bills</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Location</label>
+            <select name="location">
+                <option>Hyderabad</option>
+                <option>Mumbai</option>
+                <option>Delhi</option>
+                <option>Chennai</option>
+                <option>Bangalore</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Device Type</label>
+            <select name="device_type">
+                <option>Mobile</option>
+                <option>Web</option>
+                <option>POS</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Customer ID</label>
+            <input type="number" name="customer_id" required>
+        </div>
+
+        <button type="submit" class="btn-predict">Predict</button>
+    </form>
+
+    {% if final_output %}
+    <div class="result-box">
+        {% if "Fraud" in final_output %}
+            <h3 class="fraud-result">{{ final_output }}</h3>
+        {% else %}
+            <h3 class="legit-result">{{ final_output }}</h3>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    
+
+    {% if error %}
+    <div class="error-box">
+        {{ error }}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

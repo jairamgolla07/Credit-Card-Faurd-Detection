@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block contents %}
+
+<style>
+    /* Custom styles for the unique landing page */
+    .hero-section {
+        /* Full width and height, centered layout */
+        min-height: calc(100vh - 100px); /* Account for fixed header height */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 60px 20px;
+        /* --- BACKGROUND COLOR CHANGE: Using a darker surface for the hero area --- */
+        background-color: rgba(15, 23, 42, 0.8); /* Keeping it dark, but slightly more transparent than the surface-color for depth */
+        /* You can override the body's background color variable here if needed: */
+        /* body { --background-color: #1a0f2a; } */
+    }
+
+    .hero-title {
+        color: var(--primary-color); /* Teal color from base.html */
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 15px;
+        text-shadow: var(--accent-glow); /* Glowing effect from base.html */
+        line-height: 1.2;
+    }
+
+    .hero-subtitle {
+        color: var(--text-color);
+        font-size: 1.5rem;
+        font-weight: 600;
+        max-width: 800px;
+        margin-bottom: 40px;
+    }
+
+    /* Feature Grid Section */
+    .feature-grid {
+        display: flex;
+        justify-content: space-around;
+        gap: 30px;
+        max-width: 1100px;
+        margin-top: 50px;
+    }
+
+    .feature-card {
+        background-color: var(--surface-color);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        flex: 1;
+        min-width: 250px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border-top: 3px solid var(--primary-color);
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 30px rgba(0, 188, 212, 0.2);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 15px;
+        text-shadow: var(--accent-glow);
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--text-color);
+        margin-bottom: 10px;
+    }
+
+    .cta-button {
+        margin-top: 50px;
+    }
+
+    /* Added media query for responsiveness */
+    @media (max-width: 992px) {
+        .feature-grid {
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+</style>
+
+<div class="content">
+    <div class="hero-section">
+        
+        <h1 class="hero-title">
+         Enhancing Fraud Detection in Banking With Deep Learning: Graph Neural
+Networks and Autoencoders for Real-Time Credit Card Fraud Prevention.
+        </h1>
+        
+      
+        
+        <div class="cta-button">
+            <a href="{% url 'UserRegisterForm' %}" class="btn btn-primary btn-lg" style="background-color: var(--primary-color); border-color: var(--primary-color); color: var(--background-color);">
+                <i class="fas fa-user-plus me-2"></i> Create Account
+            </a>
+            <a href="{% url 'UserLogin' %}" class="btn btn-secondary btn-lg ms-3" style="background-color: var(--surface-color); border-color: var(--primary-color); color: var(--text-color);">
+                <i class="fas fa-sign-in-alt me-2"></i> User Login
+            </a>
+        </div>
+        
+        <div class="feature-grid">
+            
+           <div class="feature-card">
+        <i class="fas fa-network-wired feature-icon"></i>
+        <div class="card-title">Graph Neural Network Analysis</div>
+        <p class="text-secondary">
+            Uses Graph Neural Networks (GNNs) to analyze transaction relationships and
+            uncover hidden fraud networks and suspicious behavioral patterns.
+        </p>
+    </div>
+            
+           
+            
+           <div class="feature-card">
+        <i class="fas fa-bolt feature-icon"></i>
+        <div class="card-title">Real-Time Fraud Prevention</div>
+        <p class="text-secondary">
+            Provides instant fraud predictions through a weighted ensemble model,
+            ensuring fast response with minimal false positives.
+        </p>
+    </div>
+    
+            
+        </div>
+    </div>
+</div>
+{% endblock %}
